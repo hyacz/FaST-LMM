@@ -7,7 +7,7 @@ from fastlmm.util.runner import *
 import os, sys
 import logging
 import fastlmm.util.util as util
-import cPickle as pickle
+import pickle as pickle
 import itertools
 
 class LocalFromRanges: # implements IRunner

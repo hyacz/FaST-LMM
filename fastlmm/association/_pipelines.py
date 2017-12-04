@@ -97,7 +97,7 @@ def TESTBEFOREUSING_score_testfilesFromDir(phenofile, base0, pedfilesalt, covarf
            }
     if outfile is not None:
         #TODO
-        print 'implement me!'
+        print('implement me!')
         #header = SP.array(['PV_5050','neg_log_lik_0','neg_loglik_alt','n_snps_excluded','filename_alt'])
         #data = SP.concatenate(())
     return ret
@@ -180,7 +180,7 @@ def lrt_testfilesFromDir(phenofile, base0, pedfilesalt, covarfile = None, outfil
            }
     if outfile is not None:
         #TODO
-        print 'implement me!'
+        print('implement me!')
         #header = SP.array(['PV_5050','neg_log_lik_0','neg_loglik_alt','n_snps_excluded','filename_alt'])
         #data = SP.concatenate(())
     return ret

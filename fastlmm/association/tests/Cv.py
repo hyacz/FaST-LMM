@@ -47,7 +47,7 @@ class Cv(object):
 
     def write(self, fp,ind, result_dict, pv_adj, detailed_table):
         fp.write("\t".join(("SetId", "stat","scoreAlt", "scoreNull", "P-value_adjusted", "#SNPs_in_Set", "#ExcludedSNPs", "Chrm", "Pos. range")) + "\n")
-        for i in xrange(len(ind)):
+        for i in range(len(ind)):
             ii = ind[i]
             result = result_dict[ii]
             lik1=result.test['scores'].mean()

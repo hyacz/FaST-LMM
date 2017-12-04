@@ -11,11 +11,11 @@ try:
     import dill as pickle
 except:
     logging.warning("Can't import dill, so won't be able to clusterize lambda expressions. If you try, you'll get this error 'Can't pickle <type 'function'>: attribute lookup __builtin__.function failed'")
-    import cPickle as pickle
+    import pickle as pickle
 import subprocess, sys, os.path
 import threading
 import fastlmm.util.util as util
-from Queue import PriorityQueue
+from queue import PriorityQueue
 
 class LocalMultiThread: # implements IRunner
     '''Designed so that reduce will start running as soon as the 1st task as finished
@@ -43,7 +43,7 @@ class LocalMultiThread: # implements IRunner
         priority_queue = PriorityQueue()
         thread_list = []
         shaped_distributable = shape_to_desired_workcount(distributable, self.taskcount)
-        for taskindex in xrange(self.taskcount):
+        for taskindex in range(self.taskcount):
             def _target(taskindex=taskindex):
                 result_list = []
                 for work in work_sequence_for_one_index(shaped_distributable, self.taskcount, taskindex):

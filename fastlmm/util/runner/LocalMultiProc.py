@@ -11,7 +11,7 @@ try:
     import dill as pickle
 except:
     logging.warning("Can't import dill, so won't be able to clusterize lambda expressions. If you try, you'll get this error 'Can't pickle <type 'function'>: attribute lookup __builtin__.function failed'")
-    import cPickle as pickle
+    import pickle as pickle
 import subprocess, sys, os.path
 import multiprocessing
 import fastlmm.util.util as util
@@ -55,7 +55,7 @@ class LocalMultiProc: # implements IRunner
 
         if not self.just_one_process:
             proc_list = []
-            for taskindex in xrange(self.taskcount):
+            for taskindex in range(self.taskcount):
                 command_string = command_format_string.format(taskindex)
                 proc = subprocess.Popen(command_string.split(" "), cwd=os.getcwd())#!!!bug: If Anaconda is installed in c:\program files\anaconda2 this will fail
                 proc_list.append(proc)
@@ -67,7 +67,7 @@ class LocalMultiProc: # implements IRunner
                 if not 0 == rc : raise Exception("Running python in python results in non-zero return code in task#{0}".format(taskindex))
         else:
             from fastlmm.util.runner import LocalInParts
-            for taskindex in xrange(self.taskcount):
+            for taskindex in range(self.taskcount):
                 LocalInParts(taskindex,self.taskcount, mkl_num_threads=self.mkl_num_threads).run(distributable)
 
         result = run_one_task(distributable, self.taskcount, self.taskcount, distributable.tempdirectory)

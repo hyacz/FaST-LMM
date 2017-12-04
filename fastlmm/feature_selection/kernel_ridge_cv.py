@@ -18,7 +18,7 @@ import fastlmm.pyplink.snpset.SnpSetAndName as SnpSetAndName
 import fastlmm.util.util as util
 import fastlmm.inference as fastlmm
 
-from feature_selection_cv import load_snp_data
+from .feature_selection_cv import load_snp_data
 
 class KernelRidgeCV(): # implements IDistributable
     '''
@@ -92,7 +92,7 @@ class KernelRidgeCV(): # implements IDistributable
         if self.K == None:
             self.setup_kernel()
 
-        print 'run selection strategy %s'%strategy
+        print('run selection strategy %s'%strategy)
 
         model = fastlmm.lmm()
         nInds = self.K.shape[0]
@@ -170,13 +170,13 @@ class KernelRidgeCV(): # implements IDistributable
     def setup_kernel(self):
         """precomputes the kernel
         """
-        print "loading data..."
+        print("loading data...")
         G, self.X, self.y = load_snp_data(self.bed_fn, self.pheno_fn, cov_fn=self.cov_fn,offset=self.offset)
-        print "done."
-        print "precomputing kernel... "
+        print("done.")
+        print("precomputing kernel... ")
         nSnps = G.shape[1]
         self.K = 1./nSnps * SP.dot(G,G.T)
-        print "done."
+        print("done.")
         del G
    
 

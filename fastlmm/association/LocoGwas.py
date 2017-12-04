@@ -297,7 +297,7 @@ class LocoGwas(object): #implements IDistributable
 
     def copyinputs(self, copier):
         if not self.num_pcs == 0:
-            for i in xrange(self.chrom_count):
+            for i in range(self.chrom_count):
                 pc_fn = PrecomputeLocoPcs.create_out_fn(self.pc_prefix, i)
                 copier.input(pc_fn)
         copier.input(self.pheno_fn)
@@ -363,7 +363,7 @@ class FastGwas(object):
         pylab.semilogy(self.p_values)
         pylab.show()
 
-        dummy = [self.res_alt[idx]["nLL"] for idx in xrange(self.n_test)]
+        dummy = [self.res_alt[idx]["nLL"] for idx in range(self.n_test)]
         pylab.hist(dummy, bins=100)
         pylab.title("neg likelihood")
         pylab.show()

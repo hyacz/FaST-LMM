@@ -15,7 +15,7 @@ try:
     import dill as pickle
 except:
     logging.warning("Can't import dill, so won't be able to clusterize lambda expressions. If you try, you'll get this error 'Can't pickle <type 'function'>: attribute lookup __builtin__.function failed'")
-    import cPickle as pickle
+    import pickle as pickle
 
 class HPC: # implements IRunner
     #!!LATER make it (and Hadoop) work from root directories -- or give a clear error message
@@ -378,7 +378,7 @@ class HPCCopier(object): #Implements ICopier
             xcopycommand = "xcopy /d /e /s /c /h /y {0} {1}".format(itemnorm, remote_dir_name)
             logging.info(xcopycommand)
             rc = os.system(xcopycommand)
-            print "rc=" +str(rc)
+            print("rc=" +str(rc))
             if rc!=0: raise Exception("xcopy cmd failed with return value={0}, from cmd {1}".format(rc,xcopycommand))
         elif hasattr(item,"copyinputs"):
             item.copyinputs(self)

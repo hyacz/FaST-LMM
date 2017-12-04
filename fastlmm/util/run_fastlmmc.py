@@ -181,7 +181,7 @@ def run(bfile=None,pheno=None,bfileSim=None,sim=None,linreg=None,covar=None,out=
     logging.info(cmd)
     
     output = subprocess.check_output(cmd,shell=True,stderr=subprocess.STDOUT)
-    print output
+    print(output)
     #LG.info(output)
     #return output
 

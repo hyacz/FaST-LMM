@@ -5,7 +5,7 @@ import os
 
 def is_prime(n):
     assert n == int(n) and n>1, "Expect integers greater than 1"
-    for j in xrange(2,int(math.sqrt(n))+1):
+    for j in range(2,int(math.sqrt(n))+1):
         if n % j == 0:
             return False
     return True
@@ -14,7 +14,7 @@ def is_prime(n):
 def prime_search0(start,stop):
     assert start < stop, "start must be less than stop"
     prime_list = []
-    for i in xrange(start,stop):
+    for i in range(start,stop):
         if is_prime(i):
             prime_list.append(i)
     return prime_list
@@ -36,7 +36,7 @@ def prime_search1(start,stop,runner):
                 result.append(i)
         return result
 
-    return map_reduce(xrange(start,stop),
+    return map_reduce(range(start,stop),
                         mapper=mapper,
                         reducer=reducer, #lambda sequence: [i for i in sequence if i is not None], #Filter out the None's
                         runner=runner)
@@ -67,5 +67,5 @@ if __name__ == '__main__':
     #runner=LocalMultiProc(2,just_one_process=False)
     #runner = Local()
     runner = LocalMultiThread(2,just_one_process=False)
-    print prime_search1(2,10,runner=runner) #=> [2, 3, 5, 7]
-    print "done"
+    print(prime_search1(2,10,runner=runner)) #=> [2, 3, 5, 7]
+    print("done")

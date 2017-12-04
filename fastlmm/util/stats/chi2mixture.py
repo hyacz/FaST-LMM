@@ -215,12 +215,12 @@ class chi2mixture(object):
         logsumX = (sp.log(lrt[~i0])).sum()
         if (dof is None) and (scale is None):
         #f is the Gamma likelihood with the scale parameter maximized analytically as a funtion of 0.5 * the degrees of freedom
-            f = lambda (k): -1.0*(-N*sp.special.gammaln(k)-k*N*(sp.log(sumX)-sp.log(k)-sp.log(N)) + (k-1.0)*logsumX-k*N)
+            f = lambda k: -1.0*(-N*sp.special.gammaln(k)-k*N*(sp.log(sumX)-sp.log(k)-sp.log(N)) + (k-1.0)*logsumX-k*N)
             #f_ = lambda(x): 1-N*N/(2.0*x*sumX)
             res = minimize1D(f, evalgrid = None, nGrid=10, minval=0.1, maxval = 3.0)
             dof = 2.0*res[0]
         elif dof is None:
-            f = lambda (k) : -1.0*(-N*sp.special.gammaln(k)-k*N*sp.log(2.0*scale)+(k-1.0)*logsumX-sumX/(2.0*scale))
+            f = lambda k : -1.0*(-N*sp.special.gammaln(k)-k*N*sp.log(2.0*scale)+(k-1.0)*logsumX-sumX/(2.0*scale))
             res = minimize1D(f, evalgrid = None, nGrid=10, minval=0.1, maxval = 3.0)
             dof = 2.0*res[0]
         if scale is None:
@@ -245,7 +245,7 @@ if __name__ == "__main__":
     ntests = 10000
     lrt = sp.zeros((ntests))
     lrttest = sp.zeros((ntests))
-    for i in xrange(dof):
+    for i in range(dof):
         x = sp.randn(ntests)
         xtest = sp.randn(ntests)
         lrt += scale * (x*x)

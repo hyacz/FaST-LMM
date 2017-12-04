@@ -14,7 +14,7 @@ try:
     import dill as pickle
 except:
     logging.warning("Can't import dill, so won't be able to clusterize lambda expressions. If you try, you'll get this error 'Can't pickle <type 'function'>: attribute lookup __builtin__.function failed'")
-    import cPickle as pickle
+    import pickle as pickle
 import subprocess, sys, os.path
 from fastlmm.util.runner import *
 
@@ -73,7 +73,7 @@ if __name__ == "__main__":
     with open(distributablep_filename, mode='rb') as f:
         try:
             distributable = pickle.load(f)
-        except AttributeError, e:
+        except AttributeError as e:
             raise AttributeError("An AttributeError when loading the pickle file is often caused by having the __main__ in the same file as a needed class. One possible fix is to add an import statement in the __main__ for the class. [Original message: '{0}'".format(e))
             
 

@@ -1,7 +1,7 @@
 from fastlmm.util.runner import *
 import logging
 import unittest
-import cStringIO
+import io
 
 class DistributableTest(object) : #implements IDistributable
     '''
@@ -19,7 +19,7 @@ class DistributableTest(object) : #implements IDistributable
             for sub in test_or_suite:
                 for subsub in DistributableTest.deep_iter(sub):
                     yield subsub
-        except TypeError, detail:
+        except TypeError as detail:
             yield test_or_suite
 
     def do_work(self, test):
@@ -50,7 +50,7 @@ class DistributableTest(object) : #implements IDistributable
             yield lambda test=test : self.do_work(test)  # the 'test=test' is need to get around a strangeness in Python
 
     def reduce(self, result_sequence):
-        fp = cStringIO.StringIO()
+        fp = io.StringIO()
         error_count = 0
         failure_count = 0
         test_result_list = []
@@ -67,7 +67,7 @@ class DistributableTest(object) : #implements IDistributable
         s = fp.getvalue()
         fp.close()
 
-        print s
+        print(s)
         return s
 
     @property

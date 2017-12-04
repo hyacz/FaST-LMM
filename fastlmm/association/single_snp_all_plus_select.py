@@ -53,7 +53,7 @@ class _SnpWholeWithTrain(KernelReader):
                 ct = 0
                 ts = time.time()
 
-                for start in xrange(0, self.whole.sid_count, self.block_size):
+                for start in range(0, self.whole.sid_count, self.block_size):
                     ct += self.block_size
                     # read blocks of whole
                     whole = self.whole[:,start:start+self.block_size].read(dtype=dtype,force_python_only=force_python_only)
@@ -123,27 +123,27 @@ def _kfold(iid_count, n_folds, seed, end_with_all=False, iid_to_index=None):
         table=pd.read_csv(n_folds,delimiter='\s',comment=None,engine='python')
         fold_count = 1+max(table.Fold)
         result = []
-        for fold_index in xrange(fold_count):
+        for fold_index in range(fold_count):
             train = index_list(table[table.Fold!=fold_index])
             test = index_list(table[table.Fold==fold_index])
             result.append((fold_index, [train,test]))
         if end_with_all:
-            result.append((fold_count, [range(iid_count),[]]))
+            result.append((fold_count, [list(range(iid_count)),[]]))
         return result
     if n_folds == 1:
         logging.info("Running test-on-train")
-        return [(0, [range(iid_count),range(iid_count)])]
+        return [(0, [list(range(iid_count)),list(range(iid_count))])]
 
     if n_folds < 0:
         logging.info("Running just one train/test split")
         result = list(enumerate(KFold(iid_count, n_folds=-n_folds, random_state=seed, shuffle=True)))[0:1]
         if end_with_all:
-            result = result +[(1, [range(iid_count),[]])]
+            result = result +[(1, [list(range(iid_count)),[]])]
         return result
 
     result = list(enumerate(KFold(iid_count, n_folds=n_folds, random_state=seed, shuffle=True)))
     if end_with_all:
-        result = result +[(n_folds, [range(iid_count),[]])]
+        result = result +[(n_folds, [list(range(iid_count)),[]])]
     return result 
 
 #!!!This doesn't (and shouldn't) work when everything is from the same chrom, right? Add a better error message for that case.

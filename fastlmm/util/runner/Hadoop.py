@@ -7,7 +7,7 @@ See SamplePi.py for examples.
 import logging
 from fastlmm.util.runner import *
 import os
-import cPickle as pickle
+import pickle as pickle
 import subprocess, sys, os.path
 import multiprocessing
 import fastlmm.util.util as util
@@ -100,7 +100,7 @@ class Hadoop: # implements IRunner
 
         #zgoal = int(SP.ceil(SP.log(self.taskcount)/SP.log(10)))
         with open(taskIndexDir +  os.path.sep + "taskIndexList.txt","w") as taskIndexListFile:
-            for taskIndex in xrange(self.taskcount):
+            for taskIndex in range(self.taskcount):
                 taskIndexListFile.write("{0}\n".format(taskIndex)) # str(taskIndex).zfill(zgoal)))
 
         #hadoop fs -rmr runs/2013-08-02_13_51_42
@@ -365,7 +365,7 @@ class HadoopCopier(object): #Implements ICopier
         fileInWorkingDirectoryList, subDirectoryToSubSubItemList = self.GroupByTopLevelSubFolder(inputList)
 
         #create or update a tgz for each directory
-        for directory,subsubItemList in subDirectoryToSubSubItemList.iteritems():
+        for directory,subsubItemList in subDirectoryToSubSubItemList.items():
             tgzName = HadoopCopier.CheckUpdateTgz(directory, subsubItemList1=subsubItemList, skipcheck=self.skipdatacheck)
             hdfsName = "{0}/{1}.{2}.tgz".format(self.remotewd,directory,str(datetime.datetime.fromtimestamp(os.path.getmtime(tgzName)))[:19].replace(" ","_").replace(":","_")).replace("\\","/")
             self.tgzList.append((tgzName,hdfsName))
@@ -449,7 +449,7 @@ class HadoopCopier(object): #Implements ICopier
         if len(subsubItem1) == len(subsubItem2) and index1 > index2:
             return False
         if len(subsubItem1) >= len(subsubItem2):
-            for i in xrange(len(subsubItem2)):
+            for i in range(len(subsubItem2)):
                 if subsubItem1[i] != subsubItem2[i]:
                     return False
             return True
@@ -508,7 +508,7 @@ class HadoopCopier(object): #Implements ICopier
             winfileOrDirectory = os.path.normpath(directory + os.path.sep + tarName)
             try:
                 member = tgzFile.getmember(tarName)
-            except Exception, e:
+            except Exception as e:
                 logging.info("'{0}' not up to date because of exception {1}. ({2})".format(tarName, e, howToIgnoreString))
                 return False;
             else:
@@ -582,7 +582,7 @@ class HadoopCopier(object): #Implements ICopier
     @staticmethod
     def has_hidden_attribute(filepath):
         try:
-            attrs = ctypes.windll.kernel32.GetFileAttributesW(unicode(filepath))
+            attrs = ctypes.windll.kernel32.GetFileAttributesW(str(filepath))
             assert attrs != -1
             result = bool(attrs & 2)
         except (AttributeError, AssertionError):

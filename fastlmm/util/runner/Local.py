@@ -44,7 +44,7 @@ class JustCheckExists(object): #Implements ICopier
         if isinstance(item, str):
             if not os.path.exists(item): raise Exception("Missing output file '{0}'".format(item))
             if self.doPrintOutputNames:
-                print item
+                print(item)
         elif hasattr(item,"copyoutputs"):
             item.copyoutputs(self)
         # else -- do nothing

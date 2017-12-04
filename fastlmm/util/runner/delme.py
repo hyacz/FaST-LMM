@@ -1,1 +1,1 @@
-print "2 Hello from delme.py"
+print("2 Hello from delme.py")

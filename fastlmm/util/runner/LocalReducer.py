@@ -3,7 +3,7 @@ from fastlmm.util.runner import *
 import base64
 import logging
 import fastlmm.util.util as util
-import cPickle as pickle
+import pickle as pickle
 
 class LocalReducer: # implements IRunner
 

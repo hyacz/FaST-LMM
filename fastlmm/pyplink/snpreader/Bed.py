@@ -20,7 +20,7 @@ def decide_once_on_plink_reader():
             from pysnptools.snpreader import wrap_plink_parser
             WRAPPED_PLINK_PARSER_PRESENT = True #!!does the standardizer work without c++
             logging.info("using c-based plink parser")
-        except Exception, detail:
+        except Exception as detail:
             logging.warn(detail)
             WRAPPED_PLINK_PARSER_PRESENT = False
 
@@ -63,9 +63,9 @@ class Bed(object):
         self.pos = self.bimfields.as_matrix([0,2,3])
         self.snp_to_index = {}
         logging.info("indexing snps");
-        for i in xrange(self.snp_count):
+        for i in range(self.snp_count):
             snp = self.rs[i]
-            if self.snp_to_index.has_key(snp) : raise Exception("Expect snp to appear in bim file only once. ({0})".format(snp))
+            if snp in self.snp_to_index : raise Exception("Expect snp to appear in bim file only once. ({0})".format(snp))
             self.snp_to_index[snp]=i
 
         bedfile = self.basefilename+ '.bed'
@@ -181,7 +181,7 @@ class Bed(object):
             iid_index_out = self.ind_used
         else:
             iid_count_out = iid_count_in
-            iid_index_out = range(0,iid_count_in)
+            iid_index_out = list(range(0,iid_count_in))
         snp_count_out = len(snpset_withbbed)
         snp_index_out = list(snpset_withbbed)  #make a copy, in case it's in some strange format, such as HDF5
         return iid_count_in, iid_count_out, iid_index_out, snp_count_in, snp_count_out, snp_index_out

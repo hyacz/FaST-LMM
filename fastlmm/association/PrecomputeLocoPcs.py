@@ -65,7 +65,7 @@ def load_intersect(snp_reader, pheno_fn_or_none,snp_set=AllSnps()):
         if not (indarr[:,0] == indarr[:,1]).all():
             assert False, "ERROR: this code assumes the same order for snp and phen file"
 
-            print "reindexing"
+            print("reindexing")
             y = y[indarr[:,0]]
             G = G[indarr[:,1]]
     else:
@@ -117,7 +117,7 @@ class PrecomputeLocoPcs(object) : #implements IDistributable
 
     def is_run_needed(self):
         # don't recompute if all files exist
-        for i in xrange(self.chrom_count):
+        for i in range(self.chrom_count):
             pc_fn = self.create_out_fn(self.cache_prefix, i)
             if not os.path.isfile(pc_fn):
                 return True
@@ -158,6 +158,6 @@ class PrecomputeLocoPcs(object) : #implements IDistributable
     #Note that the files created are not automatically copied. Instead,
     # whenever we want another file to be created, a second change must be made here so that it will be copied.
     def copyoutputs(self,copier):
-        for i in xrange(self.chrom_count):
+        for i in range(self.chrom_count):
             out_fn = self.create_out_fn(self.cache_prefix, i)
             copier.output(out_fn)

@@ -29,7 +29,7 @@ class PositionRangePlusBed(object): # implements ISnpSetPlusBed
         return "PositionRange(start={0},nSNPs={1})".format(self.spec.start,self.spec.nSNPs)
 
     def __iter__(self):
-        for bimindex in xrange(self.spec.start,self.spec.start+len(self)):  #note that 'self.spec.start+len(self)' is the 'stop', not the 'count'
+        for bimindex in range(self.spec.start,self.spec.start+len(self)):  #note that 'self.spec.start+len(self)' is the 'stop', not the 'count'
             yield bimindex
 
     def __len__(self):

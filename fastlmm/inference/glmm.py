@@ -78,7 +78,7 @@ class GLMM(object):
         self._updateConstantsCount += 1
 
         self._hasBias = False
-        for i in xrange(X.shape[1]):
+        for i in range(X.shape[1]):
             if len(NP.unique(X[:,i])) == 0 and X[0,i] == 1.0:
                 self._hasBias = True
                 self._biasIndex = i

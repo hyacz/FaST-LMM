@@ -52,7 +52,7 @@ class ConsecutivePlusBed(object): # implements ISnpSetListPlusBed
             midIndex = math.floor((startIndex+lastIndex)/2.0)
             name = "{0}@{1}@{2}".format(startIndex,midIndex,lastIndex)
 
-            snpList=self.rs[range(startIndex,endIndex)]
+            snpList=self.rs[list(range(startIndex,endIndex))]
             yield SnpAndSetNamePlusBed(name,snpList,self.bed)                
 
     def __len__(self):

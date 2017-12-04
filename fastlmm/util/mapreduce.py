@@ -9,11 +9,11 @@ dyn = threading.local()
 @contextmanager
 def _dyn_vars(**new):
     old = {}
-    for name, value in new.items():
+    for name, value in list(new.items()):
         old[name] = getattr(dyn, name, None)
         setattr(dyn, name, value)
     yield
-    for name, value in old.items():
+    for name, value in list(old.items()):
         setattr(dyn, name, value)
 
 class _MapReduce(object): #implements IDistributable
@@ -49,7 +49,7 @@ class _MapReduce(object): #implements IDistributable
         return len(self.input_seq)
 
     def work_sequence_range(self, start, stop):
-        for i in xrange(start,stop):
+        for i in range(start,stop):
             input_arg = self.input_seq[i]
             if self.nested is None:
                 #logging.debug("\nrandom access executing %i" % i)

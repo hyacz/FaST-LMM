@@ -137,7 +137,7 @@ class WindowingGwas(object):
         assert self.lmm != None
         self.precompute_UX(self.X)
 
-        for idx in xrange(self.n_test):
+        for idx in range(self.n_test):
 
             #TODO: this can be generalized to bigger window
             self.lmm.set_exclude_idx([idx])
@@ -167,7 +167,7 @@ class WindowingGwas(object):
 
         assert len(self.res_alt) == self.n_test
 
-        for idx in xrange(self.n_test):
+        for idx in range(self.n_test):
             test_statistic = self.ll_alt[idx] - self.ll_null[idx]
             self.p_values[idx] = stats.chi2.sf(2.0 * test_statistic, degrees_of_freedom)
 
@@ -186,7 +186,7 @@ class WindowingGwas(object):
         pylab.semilogy(self.p_values)
         pylab.show()
 
-        dummy = [self.res_alt[idx]["nLL"] for idx in xrange(self.n_test)]
+        dummy = [self.res_alt[idx]["nLL"] for idx in range(self.n_test)]
         pylab.hist(dummy, bins=100)
         pylab.title("neg likelihood")
         pylab.show()

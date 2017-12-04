@@ -437,7 +437,7 @@ if __name__ == "__main__":
         #specify the directory that contains the alternative models in form of ped files
         datadiralt = os.path.join(datadir,'altmodels')
         pedfilesalt = glob.glob(os.path.join(datadiralt, '*.ped'))
-        for i in xrange(len(pedfilesalt)):
+        for i in range(len(pedfilesalt)):
             pedfilesalt[i]=pedfilesalt[i][0:-4]
         
         phenofile = os.path.join(datadir,'phen.N1000.M5000.txt')

@@ -67,7 +67,7 @@ class FeatureSelectionInSample(object):
         self.ll = np.zeros((self.n_folds, self.n_k_grid))
 
         self.grid_k = [int(k) for k in np.logspace(0, max_log_k, base=2, num=self.n_k_grid, endpoint=True)]
-        print self.grid_k
+        print(self.grid_k)
         self.random_state = random_state
         self.mixes = np.zeros((self.n_folds, self.n_k_grid))
         self.h2 = np.zeros((self.n_folds, self.n_k_grid))

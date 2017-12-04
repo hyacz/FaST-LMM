@@ -68,7 +68,7 @@ class A (object): #implements IDistributable
 
     def _work_sequence_range(self,start,stop):
         assert 0<= start and start<= stop and stop <= self.work_count
-        for work_index in xrange(start,stop):
+        for work_index in range(start,stop):
             if self.sub_work_count == 0:
                 yield lambda work_index=work_index : "{0}[{1}]".format(self.name,work_index)  # the 'work_index=work_index' is need to get around a strangeness in Python
             else:
@@ -110,7 +110,7 @@ class TestDistributable(unittest.TestCase):
         assert "A" == LocalFromRanges([2,9,10]).run(A(3,10))
 
         np.random.seed(0)
-        for i in xrange(1000):
+        for i in range(1000):
             end = int(np.random.uniform(low=1,high=15))
             a_work_count = int(np.random.uniform(low=1,high=15))
             b_work_count = int(np.random.uniform(low=0,high=3))
@@ -130,12 +130,12 @@ class TestDistributable(unittest.TestCase):
     def localmapper(self,define_work_sequence_range):
         dist = A(2,0,define_work_sequence_range=define_work_sequence_range)
 
-        import cStringIO
-        instream0 = cStringIO.StringIO("0\n1\n2\n3")
-        middlestream = cStringIO.StringIO()
+        import io
+        instream0 = io.StringIO("0\n1\n2\n3")
+        middlestream = io.StringIO()
         runner0 = LocalMapper(4,None,1,instream=instream0,outstream=middlestream)
         runner0.run(dist)
-        instream1 = cStringIO.StringIO(middlestream.getvalue())
+        instream1 = io.StringIO(middlestream.getvalue())
         runner1 = LocalReducer(4,None,1,instream=instream1)
         assert "A" == runner1.run(dist)
 
@@ -164,7 +164,7 @@ if __name__ == '__main__':
     else: #Cluster test run
         runner = Local()
         distributable_test = DistributableTest(suites,"temp_test")
-        print runner.run(distributable_test)
+        print(runner.run(distributable_test))
 
 
     logging.info("done with testing")

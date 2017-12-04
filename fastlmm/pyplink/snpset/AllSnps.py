@@ -19,7 +19,7 @@ class AllSnpsPlusBed(object): # implements ISnpSetPlusBed
         return self.bed.snp_count
 
     def __iter__(self):
-        for bimindex in xrange(self.bed.snp_count):
+        for bimindex in range(self.bed.snp_count):
             yield bimindex
 
     def __str__(self):

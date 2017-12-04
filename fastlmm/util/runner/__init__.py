@@ -12,7 +12,7 @@ interface IRunner
 
 '''
 import os
-import cPickle as cPickle
+import pickle as cPickle
 import fastlmm.util.util as util
 from itertools import *
 
@@ -114,12 +114,12 @@ def work_sequence_from_disk(workdirectory, taskAndWorkcount):
     '''
     Reads all the result sets from the temporary files and returns a sequence results
     '''
-    for taskindex in xrange(taskAndWorkcount):
+    for taskindex in range(taskAndWorkcount):
         task_file_name = create_task_file_name(workdirectory, taskindex, taskAndWorkcount)
         with open(task_file_name, mode='rb') as f:
             try:
                 result = cPickle.load(f)
-            except Exception, detail:
+            except Exception as detail:
                 raise Exception("Error trying to unpickle '{0}'. {1}".format(task_file_name,detail))
         #if True:
         #    logging.debug("\tAbout to yield result {0} of {1}".format(taskindex,taskAndWorkcount))
@@ -146,7 +146,7 @@ class BatchUpWork(object): # implements IDistributable
 
     def work_sequence_range(self, start, stop):
         assert 0 <= start and start <= stop and stop <= self._workcount, "real assert"
-        for workIndex in xrange(start, stop):
+        for workIndex in range(start, stop):
             yield lambda workIndex=workIndex : self.work(workIndex)
             
     def work(self,workIndex):
@@ -165,7 +165,7 @@ class BatchUpWork(object): # implements IDistributable
                 index += 1
             assert index == stop, "real assert"
         else:
-            sub_workIndexList = range(stop-1,start-1,-1)
+            sub_workIndexList = list(range(stop-1,start-1,-1))
             for sub_workIndex, sub_work in enumerate(self.sub_distributable.work_sequence()):
                 if sub_workIndex == self.sub_workcount : raise Exception("Expect len(work_sequence) to match work_count")
                 if sub_workIndex ==  sub_workIndexList[-1]:
@@ -185,7 +185,7 @@ class BatchUpWork(object): # implements IDistributable
             workIndex = result.pop(0)
             start, stop = self.createSubWorkIndexList(workIndex)
             if (stop-start) != len(result) : raise Exception("Assert: batched results not expected size")
-            for sub_workIndex, pair in izip(xrange(start,stop), result):
+            for sub_workIndex, pair in zip(range(start,stop), result):
                 sub_workIndex_check, sub_result = pair
                 if sub_workIndex != sub_workIndex_check : raise Exception("Assert: Unexpected workindex in batched result")
                 yield sub_result
@@ -289,7 +289,7 @@ class ExpandWork(object): # implements IDistributable
                     yield sub_work
                     workIndex += 1
                     sub_sub_index += 1
-                for sub_sub_index2 in xrange(sub_sub_index, sub_sub_stop):
+                for sub_sub_index2 in range(sub_sub_index, sub_sub_stop):
                     assert sub_sub_index2 == sub_sub_index, "real assert"
                     yield lambda: None
                     workIndex += 1
@@ -325,17 +325,17 @@ class ExpandWork(object): # implements IDistributable
                     yield result
                 workIndex += expand_to
             else:
-                yield result_sequence.next()
+                yield next(result_sequence)
                 workIndex += 1
-                for workindex in xrange(1, expand_to):
-                    paddedResultToIgnore = result_sequence.next()
+                for workindex in range(1, expand_to):
+                    paddedResultToIgnore = next(result_sequence)
                     if paddedResultToIgnore != None: raise Exception("Assert: Expected 'None' result")
                     workIndex += 1
             sub_workIndex+=1
         if sub_workIndex != self.sub_workcount : raise Excpetion("Assert:  expect len(result_sequence) to match workcount")
         if workIndex != self._workcount : raise Exception("Assert: expect len(result_sequence) to match workcount")
         try:
-            result_sequence.next() #should get an StopIternation here, which will be ignored.
+            next(result_sequence) #should get an StopIternation here, which will be ignored.
             raise Exception("Assert: expect len(result_sequence) to match workcount. This can be caused by a 'reducer' that doesn't pull every input from its input sequence.")
         except StopIteration:
             pass #do nothing
@@ -362,7 +362,7 @@ class MakeWork(object): # implements IDistributable
         return self._workcount
 
     def work_sequence_range(self,start,stop):
-        for i in xrange(start,stop):
+        for i in range(start,stop):
             yield lambda: None
 
     def work_sequence(self):
@@ -385,10 +385,10 @@ class SubGen:
     def __iter__(self):
         return self
         
-    def next(self):
+    def __next__(self):
         if self.count > 0:
             self.count -= 1
-            return self.gen.next()
+            return next(self.gen)
         else:
             raise StopIteration()
 

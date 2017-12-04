@@ -156,7 +156,7 @@ def single_snp_linreg(test_snps, pheno, covar=None, max_output_len=None, output_
 
         return dataframe
 
-    dataframe = map_reduce(xrange(0,test_snps.sid_count,block_size),
+    dataframe = map_reduce(range(0,test_snps.sid_count,block_size),
                            mapper=mapper,
                            reducer=reducer,
                            input_files=[test_snps,pheno,covar],

@@ -77,7 +77,7 @@ class TestLmmKernel(unittest.TestCase):
         target_result = {'scale': 1.0, 'h2': 0.0, 'beta': NP.array([ 0.05863443]), 'a2': 0.4, 'REML': False, 'nLL': 91.92983775736522, 'sigma2': 0.94826207355429604}
         
         # make sure results are the same
-        for key in result.keys():
+        for key in list(result.keys()):
             self.assertAlmostEqual(result[key], target_result[key])
 
         
@@ -96,7 +96,7 @@ class TestLmmKernel(unittest.TestCase):
 
         target_result = {'scale': 1.0, 'h2': 0.0, 'beta': NP.array([ 0.05863443]), 'a2': 0.4, 'REML': True, 'nLL': 90.940636012858121, 'sigma2': 0.96761436076968987}
         # make sure results are the same
-        for key in result.keys():
+        for key in list(result.keys()):
             self.assertAlmostEqual(result[key], target_result[key])
          
          
@@ -117,7 +117,7 @@ class TestLmmKernel(unittest.TestCase):
 
         target_result = {'scale': 1.0, 'h2': 0.5, 'beta': NP.array([ 0.05863443]), 'a2': 0.4, 'REML': True, 'nLL': 90.940636012858121, 'sigma2': 1.9352287215393797}
         # make sure results are the same
-        for key in result.keys():
+        for key in list(result.keys()):
             self.assertAlmostEqual(result[key], target_result[key])
             
         
@@ -158,7 +158,7 @@ class TestProximalContamination(unittest.TestCase):
         ypred_cut = lmm_cut.predictMean(beta=ret_cut['beta'],delta=delta)
 
         # make sure results are the same
-        for key in ret_nocut.keys():
+        for key in list(ret_nocut.keys()):
             #NP.testing.assert_array_almost_equal(ret_cut[key], ret_nocut[key])
             self.assertAlmostEqual(ret_cut[key], ret_nocut[key])
     
@@ -199,7 +199,7 @@ class TestProximalContamination(unittest.TestCase):
         ypred_cut = lmm_cut.predictMean(beta=ret_cut['beta'],delta=delta)
         
         # make sure results are the same
-        for key in ret_nocut.keys():
+        for key in list(ret_nocut.keys()):
             #NP.testing.assert_array_almost_equal(ret_cut[key], ret_nocut[key])
             self.assertAlmostEqual(ret_cut[key], ret_nocut[key])
     
@@ -239,7 +239,7 @@ class TestProximalContamination(unittest.TestCase):
         ypred_cut = lmm_cut.predictMean(beta=ret_cut['beta'],delta=delta)
         
         # make sure results are the same
-        for key in ret_nocut.keys():
+        for key in list(ret_nocut.keys()):
             #NP.testing.assert_array_almost_equal(ret_cut[key], ret_nocut[key])
             self.assertAlmostEqual(ret_cut[key], ret_nocut[key])
         wproj = SP.random.randn(ypred_nocut.shape[0])
@@ -278,7 +278,7 @@ class TestProximalContamination(unittest.TestCase):
         ypred_cut = lmm_cut.predictMean(beta=ret_cut['beta'],delta=delta)
         
         # make sure results are the same
-        for key in ret_nocut.keys():
+        for key in list(ret_nocut.keys()):
             #NP.testing.assert_array_almost_equal(ret_cut[key], ret_nocut[key])
             self.assertAlmostEqual(ret_cut[key], ret_nocut[key])
         wproj = SP.random.randn(ypred_nocut.shape[0])
@@ -313,7 +313,7 @@ class TestProximalContamination(unittest.TestCase):
         ret_cut = lmm_cut.nLLeval(REML=True,delta=delta)
 
         # make sure results are the same
-        for key in ret_nocut.keys():
+        for key in list(ret_nocut.keys()):
             #NP.testing.assert_array_almost_equal(ret_cut[key], ret_nocut[key])
             self.assertAlmostEqual(ret_cut[key], ret_nocut[key])
             
@@ -347,7 +347,7 @@ class TestProximalContamination(unittest.TestCase):
         ret_cut = lmm_cut.nLLeval(REML=True,delta=delta)
         
         # make sure results are the same
-        for key in ret_nocut.keys():
+        for key in list(ret_nocut.keys()):
             #NP.testing.assert_array_almost_equal(ret_cut[key], ret_nocut[key])
             self.assertAlmostEqual(ret_cut[key], ret_nocut[key])
 

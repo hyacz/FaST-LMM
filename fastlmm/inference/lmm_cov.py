@@ -118,7 +118,7 @@ class LMM(object):
                     self.U = self.U[:,inonzero]
                     
                 except la.LinAlgError:  # revert to Eigenvalue decomposition
-                    print "Got SVD exception, trying eigenvalue decomposition of square of G. Note that this is a little bit less accurate"
+                    print("Got SVD exception, trying eigenvalue decomposition of square of G. Note that this is a little bit less accurate")
                     [S,V] = la.eigh(PxG.T.dot(PxG))
                     if np.any(S < -0.1):
                         logging.warning("kernel contains a negative Eigenvalue")
@@ -278,7 +278,7 @@ class LMM(object):
         #TODO: ckw: is this method needed?  seems like a wrapper around findA2_2K!
         #Christoph and Chris: probably not needed
         if self.Y.shape[1] > 1:
-            print "not implemented"
+            print("not implemented")
             raise NotImplementedError("only single pheno case implemented")
 
         #if self.K0 is not None:
@@ -317,7 +317,7 @@ class LMM(object):
             dictionary containing the model parameters at the optimal a2
         '''
         if self.Y.shape[1] > 1:
-            print "not implemented"
+            print("not implemented")
             raise NotImplementedError("only single pheno case implemented")
         
         self.numcalls = 0
@@ -334,7 +334,7 @@ class LMM(object):
             #print "one objective function call took %.2f seconds elapsed" % (t1-t0)
             #import pdb; pdb.set_trace()
             return res['nLL']
-        if verbose: print "finda2"
+        if verbose: print("finda2")
         min = minimize1D(f=f, nGrid=nGridA2, minval=minA2, maxval=maxA2,verbose=False)
         #print "numcalls to innerLoopTwoKernel= " + str(self.numcalls)
         return resmin[0]
@@ -366,7 +366,7 @@ class LMM(object):
         '''
         #f = lambda x : (self.nLLeval(h2=x,**kwargs)['nLL'])
         if self.Y.shape[1] > 1:
-            print "not implemented"
+            print("not implemented")
             raise NotImplementedError("only single pheno case implemented")
         resmin = [None]
         noG1 = True
@@ -429,14 +429,14 @@ class LMM(object):
             dictionary containing the model parameters at the optimal h2
         '''
         #f = lambda x : (self.nLLeval(h2=x,**kwargs)['nLL'])
-        resmin = [None for i in xrange(self.Y.shape[1])]
+        resmin = [None for i in range(self.Y.shape[1])]
         #logging.info("starting H2 search")
         assert estimate_Bayes == False, "not implemented"
         if self.Y.shape[1] > 1:
             def f(x):
                 res = self.nLLeval(h2=x,**kwargs)
                 #check all results for local minimum:
-                for i in xrange(self.Y.shape[1]):
+                for i in range(self.Y.shape[1]):
                     if (resmin[i] is None) or (res['nLL'][i] < resmin[i]['nLL']):
                         resmin[i] = res.copy()
                         resmin[i]['nLL'] = res['nLL'][i]
@@ -491,7 +491,7 @@ class LMM(object):
             if (resmin[0] is None):
                     resmin[0] = {'nLL':res['nLL'],'h2':np.zeros_like(res['nLL'])+res['h2']}
             else:
-                for i in xrange(self.Y.shape[1]):
+                for i in range(self.Y.shape[1]):
                     if (res['nLL'][i] < resmin[0]['nLL'][i]):
                         resmin[0]['nLL'][i] = res['nLL'][i]
                         resmin[0]['h2'][i] = res['h2']
@@ -576,7 +576,7 @@ class LMM(object):
         if snps is not None:
             
             if snps.shape[0] != self.Y.shape[0]:
-                print "shape mismatch between snps and Y"
+                print("shape mismatch between snps and Y")
             Usnps,UUsnps = self.rotate(A=snps)
         
         result = self.nLLcore(Sd=Sd, dof=dof, scale=scale, penalty=penalty, UW=UW, UUW=UUW, weightW=weightW, denom=denom, Usnps=Usnps, UUsnps=UUsnps)
@@ -896,7 +896,7 @@ def computeAKA(Sd, denom, UA, UUA=None):
 
     AKA = np.zeros(UA.shape[1])
     start0, start1 = 0, 0
-    for piece_index in xrange(piece_count):
+    for piece_index in range(piece_count):
         end0 = UA.shape[0] * (piece_index+1) // piece_count
         AKA += (UA[start0:end0,:] / Sd.reshape(-1,1)[start0:end0,:] * UA[start0:end0,:]).sum(0)
         start0 = end0
@@ -978,19 +978,19 @@ if __name__ == "__main__":
     #snp_name = geno['rs']
 
     #loco = LeaveOneChromosomeOut(chr_ids, indices=True)
-    loco = [[range(0,5000), range(5000,10000)]]
+    loco = [[list(range(0,5000)), list(range(5000,10000))]]
 
     if 0:
         #TODO: wrap up results using pandas
         for train_snp_idx, test_snp_idx in loco:
 
-            print len(train_snp_idx), len(test_snp_idx)
+            print(len(train_snp_idx), len(test_snp_idx))
 
         
             int_snp_idx = argintersect_left(snp_pos[train_snp_idx], selected_snp_pos)
             sim_keeper_idx = np.array(train_snp_idx)[int_snp_idx]
 
-            print sim_keeper_idx
+            print(sim_keeper_idx)
 
             G_train = G[:,train_snp_idx]
             G_sim = G[:,sim_keeper_idx]
@@ -1095,7 +1095,7 @@ if __name__ == "__main__":
 
             timing1 = t1 - t0
             timing2 = t2 - t1
-            print "t1 = %.5f   t2 = %.5f" % (timing1,timing2)
+            print("t1 = %.5f   t2 = %.5f" % (timing1,timing2))
 
             #import pylab as PL
             PL.ion()

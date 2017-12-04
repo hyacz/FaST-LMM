@@ -106,7 +106,7 @@ class NearBronze:
         if directory_name != "":
             try:
                 os.makedirs(directory_name)
-            except OSError, e:
+            except OSError as e:
                 if not os.path.isdir(directory_name):
                     raise Exception("not valid path: " + directory_name)
 
@@ -128,7 +128,7 @@ class NearBronze:
                     valueAndSnpList = bronzeChromToSortedValueAndSnpList.setdefault(chrom,[])
                     valueAndSnpList.append((value, snp))
         chromToSortedValuesAndSnps = {}
-        for chrom, valueAndSnpList in bronzeChromToSortedValueAndSnpList.iteritems():
+        for chrom, valueAndSnpList in bronzeChromToSortedValueAndSnpList.items():
             sortedList = sorted(valueAndSnpList,key=lambda valueAndSnp: valueAndSnp[0])
             sortedValues = [valueAndSnp[0] for valueAndSnp in sortedList]
             sortedSnps = [valueAndSnp[1] for valueAndSnp in sortedList]

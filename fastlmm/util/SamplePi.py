@@ -70,7 +70,7 @@ class SamplePi(object) : #implements IDistributable
         return self.dartboard_count
 
     def work_sequence(self):
-        for work_index in xrange(self.dartboard_count):
+        for work_index in range(self.dartboard_count):
             yield lambda work_index=work_index : self.dowork(work_index)  # the 'work_index=work_index' is need to get around a strangeness in Python
 
     def reduce(self, result_sequence):
@@ -82,7 +82,7 @@ class SamplePi(object) : #implements IDistributable
         average = float(sum(result_sequence)) / self.dartboard_count
         # the circle has area pi * r ** 2 = pi. the square has area 2**2=4, so the fraction_in_circle ~ pi /4
         pi = average * 4
-        print("pi ~ {0}".format(pi))
+        print(("pi ~ {0}".format(pi)))
         return pi
 
     @property
@@ -103,7 +103,7 @@ class SamplePi(object) : #implements IDistributable
         # seed the global random number generator with work_index xor'd with an arbitrary constant
         randomstate = RandomState(work_index ^ 284882)
         sum = 0.0
-        for i in xrange(self.dart_count):
+        for i in range(self.dart_count):
             x = randomstate.uniform(2)
             y = randomstate.uniform(2)
             is_in_circle = sp.sqrt((x-1)**2+(y-1)**2) < 1

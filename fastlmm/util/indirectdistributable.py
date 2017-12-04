@@ -1,5 +1,5 @@
 import os
-import cPickle as pickle
+import pickle as pickle
 import subprocess, sys, os.path
 from fastlmm.util.runner import *
 import logging
@@ -54,8 +54,8 @@ class IndirectDistributable(object): #implements IDistributable
      #end of IDistributable interface---------------------------------------
 
     def __repr__(self):
-        import cStringIO
-        fp = cStringIO.StringIO()
+        import io
+        fp = io.StringIO()
         fp.write("{0}(\n".format(self.__class__.__name__))
         varlist = []
         for f in dir(self):

@@ -34,8 +34,8 @@ if __name__ == "__main__":
     else: raise Exception("please specify 'chrm' in the input file")
 
     for chr in chrmset:
-        print "doing leave-one-out chromosome"
-        print "chrm: " + str(chr)
+        print("doing leave-one-out chromosome")
+        print("chrm: " + str(chr))
         tt0=time.time()
 
         if bedfilealt.rfind("%i") > -1:

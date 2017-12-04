@@ -9,7 +9,7 @@ Created on 2013-07-28
 from collections import defaultdict
 import gzip
 import bz2
-import cPickle
+import pickle
 import time
 import os 
 import gc
@@ -38,7 +38,7 @@ import fastlmm.util.util as util
 import fastlmm.util.preprocess as up
 import fastlmm.inference as inference
 import fastlmm.inference.linear_regression as lin_reg
-import PerformSelectionDistributable as psd
+from . import PerformSelectionDistributable as psd
 from fastlmm.util.runner import *
 from pysnptools.standardizer import Unit
 import pysnptools.snpreader as sr
@@ -400,7 +400,7 @@ class FeatureSelectionStrategy(object):
             # save cv scores
             if output_prefix != None:
                 split_idx = ["mean"]*len(k_values)
-                for idx in xrange(len(loss_cv)):
+                for idx in range(len(loss_cv)):
                     split_idx.extend([idx]*loss_cv[idx].shape[0])
                                 
                 stacked_result = np.vstack(loss_cv)
@@ -414,7 +414,7 @@ class FeatureSelectionStrategy(object):
             
             # make sure delta is not at the boundary for any k
             assert average_loss.shape[0] == len(k_values)
-            for k_idx in xrange(average_loss.shape[0]):
+            for k_idx in range(average_loss.shape[0]):
                 tmp_idx = np.argmin(average_loss[k_idx])
                 
                 if tmp_idx == 0 or tmp_idx == len(delta_values)-1:
@@ -464,7 +464,7 @@ class FeatureSelectionStrategy(object):
                     #TODO: this assumes the k_values are sorted:
                     pylab.ylim(ymax=average_loss[0].max() + abs(average_loss[0].max())*0.05 )
                     if k_values[0] != 0: logging.warn("Expect the first k value to be zero") #!!move this change earlier
-                    for i in xrange(len(k_values)):
+                    for i in range(len(k_values)):
                         if k_values[i] == 0:
                             ax.axhline(average_loss[i].max(), color = 'green')
                             mymin = average_loss.min() 
@@ -502,14 +502,14 @@ class FeatureSelectionStrategy(object):
             logging.info(best_str)
             if output_prefix != None:
                 split_idx = ["mean"]*len(k_values)
-                for idx in xrange(len(loss_cv)):
+                for idx in range(len(loss_cv)):
                     split_idx.extend([idx]*loss_cv[idx].shape[0])
                                 
                 stacked_result = np.vstack(loss_cv)
                 stacked_result = np.vstack((average_loss, stacked_result))
                 out_fn = output_prefix + "_" + label  + ".csv"
                 cols = pd.MultiIndex.from_arrays([split_idx, k_values*(self.num_folds+1)], names=['split_id','k_value'])
-                print "Christoph: bug, this is a quick fix that runs but may write out wrong results"
+                print("Christoph: bug, this is a quick fix that runs but may write out wrong results")
                 df = pd.DataFrame(stacked_result.flatten()[:, None], columns=[label], index=cols)
                 util.create_directory_if_necessary(out_fn)
                 df.to_csv(out_fn)
@@ -529,7 +529,7 @@ class FeatureSelectionStrategy(object):
                     ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
                     pylab.ylim(ymax=average_loss[0].max() + abs(average_loss[0].max())*0.05 )
                     if k_values[0] != 0: logging.warn("Expect the first k value to be zero") #!!move this change earlier
-                    for i in xrange(len(k_values)):
+                    for i in range(len(k_values)):
                         if k_values[i] == 0:
                             ax.axhline(average_loss[i].max(), color = 'green')
                             mymin =average_loss.min() 
@@ -826,7 +826,7 @@ def main():
     ##############################
     # set up grid
     ##############################
-    k_values = [int(x) if x != 'all' else sys.maxint for x in args.k_values.lstrip('[').rstrip(']').lower().split(',')]
+    k_values = [int(x) if x != 'all' else sys.maxsize for x in args.k_values.lstrip('[').rstrip(']').lower().split(',')]
     delta_values = np.array([np.exp(float(x)) for x in args.ln_delta_values.lstrip('[').rstrip(']').split(',')])
 
     np.set_printoptions(precision=3, suppress=True, linewidth=150)

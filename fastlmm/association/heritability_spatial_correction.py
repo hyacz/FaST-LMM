@@ -54,15 +54,15 @@ def spatial_similarity(spatial_coor, alpha, power):     # scale spatial coordina
 def work_item(arg_tuple):
     return work_item2(*arg_tuple)
 
-def work_item2(pheno, G_kernel, spatial_coor, spatial_iid, alpha, alpha_power,    # The main inputs
-     (jackknife_index, jackknife_count, jackknife_seed),               # Jackknifing and permutations inputs
-     (permute_plus_index, permute_plus_count, permute_plus_seed),
-     (permute_times_index, permute_times_count, permute_times_seed),
+def work_item2(pheno, G_kernel, spatial_coor, spatial_iid, alpha, alpha_power, xxx_todo_changeme, xxx_todo_changeme1, xxx_todo_changeme2,
      just_testing, do_uncorr, do_gxe2, a2): 
     
     #########################################
     # Load GPS info from filename if that's the way it is given
     ########################################
+    (jackknife_index, jackknife_count, jackknife_seed) = xxx_todo_changeme
+    (permute_plus_index, permute_plus_count, permute_plus_seed) = xxx_todo_changeme1
+    (permute_times_index, permute_times_count, permute_times_seed) = xxx_todo_changeme2
     if isinstance(spatial_coor,str):
         assert spatial_iid is None, "if spatial_coor is a str, then spatial_iid should be None"
         gps_table = pd.read_table(spatial_coor, delimiter=" ").dropna()
@@ -278,9 +278,9 @@ def heritability_spatial_correction(G_kernel, spatial_coor, spatial_iid, alpha_l
         pstutil.create_directory_if_necessary(cache_folder,isfile=False)
 
     
-    jackknife_seed = seed or 1954692566L
-    permute_plus_seed = seed or 2372373100L
-    permute_times_seed = seed or 2574440128L
+    jackknife_seed = seed or 1954692566
+    permute_plus_seed = seed or 2372373100
+    permute_times_seed = seed or 2574440128
 
     ######################
     # Find 'alpha', the scale for distance
@@ -303,7 +303,7 @@ def heritability_spatial_correction(G_kernel, spatial_coor, spatial_iid, alpha_l
                 arg_list.append(arg_tuple)
 
         # Run "run_line" on each set of arguments and save to file
-        return_list = map_function(work_item, arg_list) if len(arg_list)>1 or always_remote else map(work_item, arg_list)
+        return_list = map_function(work_item, arg_list) if len(arg_list)>1 or always_remote else list(map(work_item, arg_list))
         return_list = [line for line in return_list if line is not None] #Remove 'None' results
         alpha_table = pd.DataFrame(return_list)
         if cache_folder is not None:
@@ -349,7 +349,7 @@ def heritability_spatial_correction(G_kernel, spatial_coor, spatial_iid, alpha_l
                     arg_list.append(arg_tuple)    
 
         # Run "run_line" on each set of arguments and save to file
-        return_list = map_function(work_item, arg_list) if len(arg_list)>1 or always_remote else map(work_item, arg_list)
+        return_list = map_function(work_item, arg_list) if len(arg_list)>1 or always_remote else list(map(work_item, arg_list))
         return_list = [line for line in return_list if line is not None] #Remove 'None' results
         jackknife_table = pd.DataFrame(return_list)
         if cache_folder is not None:
@@ -418,7 +418,7 @@ def heritability_spatial_correction(G_kernel, spatial_coor, spatial_iid, alpha_l
                 arg_list.append(arg_tuple)
 
         # Run "run_line" on each set of arguments and save to file
-        return_list = map_function(work_item, arg_list) if len(arg_list)>1 or always_remote else map(work_item, arg_list)
+        return_list = map_function(work_item, arg_list) if len(arg_list)>1 or always_remote else list(map(work_item, arg_list))
         return_list = [line for line in return_list if line is not None] #Remove 'None' results
         permplus_table = pd.DataFrame(return_list)
         if cache_folder is not None:
@@ -466,7 +466,7 @@ def heritability_spatial_correction(G_kernel, spatial_coor, spatial_iid, alpha_l
                 arg_list.append(arg_tuple)    
 
             # Run "run_line" on each set of arguments and save to file
-            return_list = map_function(work_item, arg_list) if len(arg_list)>1 or always_remote else map(work_item, arg_list)
+            return_list = map_function(work_item, arg_list) if len(arg_list)>1 or always_remote else list(map(work_item, arg_list))
             return_list = [line for line in return_list if line is not None] #Remove 'None' results
             permtime_results = pd.DataFrame(return_list)
             if cache_folder is not None:

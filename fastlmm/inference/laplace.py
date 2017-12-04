@@ -183,7 +183,7 @@ class LaplaceGLMM(object):
         n = len(kstarstar)
         ps = NP.zeros(n)
 
-        for i in xrange(n):
+        for i in range(n):
             ps[i] = self._predict_each(meanstar[i], kstar[i,:], kstarstar[i], prob)
 
         return ps

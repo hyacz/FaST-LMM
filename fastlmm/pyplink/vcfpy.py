@@ -24,7 +24,7 @@ line = file.readline()
 if writesmall:
     outfsmall.write(line)
 if line != '##fileformat=VCFv4.1\n':
-    print 'wrong format'
+    print('wrong format')
 iline = 0
 header = ''
 while (line[0:2]=='##'):
@@ -74,12 +74,12 @@ while (iline < maxline ) and (line !=''):
         #write bedfile entries
         nbytes = SP.ceil(ninds/4.0)
         ndone = 0
-        for i in xrange(int(SP.ceil(ninds/4.0))):
+        for i in range(int(SP.ceil(ninds/4.0))):
             num = min(4,ninds-ndone)
             geno = vals[9+i*4:9+(i)*4+num]
             byte = 0
             #pdb.set_trace()
-            for j in xrange(num):
+            for j in range(num):
 
                 if geno[j][0:3]=='0|0':
                     #byte += 0*(2**(2*j))
